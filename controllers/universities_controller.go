@@ -1,27 +1,17 @@
 package controllers
 
 import (
-	"encoding/json"
 	"net/http"
-	"os"
 
-	"github.com/coolpythoncodes/nigerian-universities/models"
 	"github.com/coolpythoncodes/nigerian-universities/utils"
 	"github.com/gin-gonic/gin"
 )
 
 func GetAllUniversities(c *gin.Context) {
-	univeristies := []models.Universities{}
-	universitiesJson, err := os.ReadFile(utils.JsonFileName)
+	univeristies, err := utils.ReadUniversitiesFromJSONFile(utils.JsonFileName)
 
 	if err != nil {
-		restErr := utils.NewInternalServerError("unable to get data")
-		c.JSON(http.StatusInternalServerError, restErr)
-		return
-	}
-	if err := json.Unmarshal(universitiesJson, &univeristies); err != nil {
-		restErr := utils.NewInternalServerError("unable to get data unmarshale")
-		c.JSON(http.StatusInternalServerError, restErr)
+		c.JSON(err.Status, err)
 		return
 	}
 
@@ -29,5 +19,56 @@ func GetAllUniversities(c *gin.Context) {
 		"error":   false,
 		"message": "success",
 		"data":    univeristies,
+	})
+}
+
+func GetAllFederalUniversities(c *gin.Context) {
+	univeristies, err := utils.ReadUniversitiesFromJSONFile(utils.JsonFileName)
+
+	if err != nil {
+		c.JSON(err.Status, err)
+		return
+	}
+
+	federalUniversities := utils.Filter(univeristies, "federal")
+
+	c.JSON(http.StatusOK, gin.H{
+		"error":   false,
+		"message": "success",
+		"data":    federalUniversities,
+	})
+}
+
+func GetAllStateUniversities(c *gin.Context) {
+	univeristies, err := utils.ReadUniversitiesFromJSONFile(utils.JsonFileName)
+
+	if err != nil {
+		c.JSON(err.Status, err)
+		return
+	}
+
+	stateUniversities := utils.Filter(univeristies, "state")
+
+	c.JSON(http.StatusOK, gin.H{
+		"error":   false,
+		"message": "success",
+		"data":    stateUniversities,
+	})
+}
+
+func GetAllPrivateUniversities(c *gin.Context) {
+	univeristies, err := utils.ReadUniversitiesFromJSONFile(utils.JsonFileName)
+
+	if err != nil {
+		c.JSON(err.Status, err)
+		return
+	}
+
+	privateUniversities := utils.Filter(univeristies, "private")
+
+	c.JSON(http.StatusOK, gin.H{
+		"error":   false,
+		"message": "success",
+		"data":    privateUniversities,
 	})
 }

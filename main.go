@@ -9,6 +9,9 @@ func main() {
 	// scraper.ScrapeUniversities()
 	r := gin.Default()
 	r.GET("/", controllers.GetAllUniversities)
+	r.GET("/federal", controllers.GetAllFederalUniversities)
+	r.GET("/state", controllers.GetAllStateUniversities)
+	r.GET("/private", controllers.GetAllPrivateUniversities)
 
 	r.Run(":8080")
 
