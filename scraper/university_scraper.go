@@ -12,9 +12,9 @@ var universities []models.Universities
 
 func ScrapeUniversities() {
 	pagesToScrape := map[string]string{
-		"https://www.nuc.edu.ng/nigerian-univerisities/federal-univeristies/1": "Federal",
-		"https://www.nuc.edu.ng/nigerian-univerisities/state-univerisity/1":    "State",
-		"https://www.nuc.edu.ng/nigerian-univerisities/private-univeristies/1": "Private",
+		"https://www.nuc.edu.ng/nigerian-univerisities/federal-univeristies/": "Federal",
+		"https://www.nuc.edu.ng/nigerian-univerisities/state-univerisity/":    "State",
+		"https://www.nuc.edu.ng/nigerian-univerisities/private-univeristies/": "Private",
 	}
 	c := colly.NewCollector(
 		colly.AllowedDomains("www.nuc.edu.ng", "nuc.edu.ng"),
@@ -22,7 +22,6 @@ func ScrapeUniversities() {
 
 	c.OnHTML("tbody tr", func(e *colly.HTMLElement) {
 		universityType := pagesToScrape[e.Request.URL.String()]
-		// fmt.Println("universityType", universityType)
 
 		nameOfUniversity := e.ChildText(".column-2")
 		nameOfChancellor := e.ChildText(".column-3")

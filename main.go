@@ -1,18 +1,14 @@
 package main
 
 import (
-	"github.com/coolpythoncodes/nigerian-universities/scraper"
+	"github.com/coolpythoncodes/nigerian-universities/controllers"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	scraper.ScrapeUniversities()
+	// scraper.ScrapeUniversities()
 	r := gin.Default()
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
+	r.GET("/", controllers.GetAllUniversities)
 
 	r.Run(":8080")
 
