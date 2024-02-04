@@ -2,11 +2,12 @@ package main
 
 import (
 	"github.com/coolpythoncodes/nigerian-universities/controllers"
+	"github.com/coolpythoncodes/nigerian-universities/scraper"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	// scraper.ScrapeUniversities()
+	scraper.ScrapeUniversities()
 	r := gin.Default()
 	r.GET("/", controllers.GetAllUniversities)
 	r.GET("/federal", controllers.GetAllFederalUniversities)
